@@ -1,23 +1,27 @@
 version: '2'
 services:
     db:
-        image: mysql
+        image: mysql:5.7
         ports:
             - "3306:3306"
         environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: cakephp
-            MYSQL_USER: root
-            MYSQL_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: 'cakephp'
+          MYSQL_DATABASE: 'cakephp'
     php:
         build: ./php-fpm
-        expose:
-            - "9000"
+#        expose:
+#            - "9000"
+        ports:
+            - "9000:9000"
         volumes:
-            - ./cakephp:/var/www/cakephp
-            - ./logs/cakephp:/var/www/cakephp/app/logs
+            - ./cakephp:/www
+            - ./logs/cakephp:/www/app/logs
         links:
             - db
+        environment:
+          DB_USERNAME: 'root'
+          DB_PASSWORD: 'cakephp'
+          DB_DATABASE: 'cakephp'
     nginx:
         build: ./nginx
         ports:
@@ -28,3 +32,7 @@ services:
             - php
         volumes:
             - ./logs/nginx/:/var/log/nginx
+        environment:
+          DB_USERNAME: 'root'
+          DB_PASSWORD: 'cakephp'
+          DB_DATABASE: 'cakephp'

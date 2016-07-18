@@ -6,7 +6,7 @@ services:
             - "3306:3306"
         environment:
             MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: symfony
+            MYSQL_DATABASE: cakephp
             MYSQL_USER: root
             MYSQL_PASSWORD: root
     php:
@@ -14,8 +14,8 @@ services:
         expose:
             - "9000"
         volumes:
-            - ./symfony:/var/www/symfony
-            - ./logs/symfony:/var/www/symfony/app/logs
+            - ./cakephp:/var/www/cakephp
+            - ./logs/cakephp:/var/www/cakephp/app/logs
         links:
             - db
     nginx:
@@ -28,13 +28,3 @@ services:
             - php
         volumes:
             - ./logs/nginx/:/var/log/nginx
-    elk:
-        image: willdurand/elk
-        ports:
-            - "81:80"
-        volumes:
-            - ./elk/logstash:/etc/logstash
-            - ./elk/logstash/patterns:/opt/logstash/patterns
-        volumes_from:
-            - php
-            - nginx

@@ -23,10 +23,10 @@ RUN apk add --update \
 
 RUN rm -rf /var/cache/apk/* && rm -rf /tmp/*
 
-ADD symfony.ini /etc/php5/fpm/conf.d/
-ADD symfony.ini /etc/php5/cli/conf.d/
+ADD cakephp.ini /etc/php5/fpm/conf.d/
+ADD cakephp.ini /etc/php5/cli/conf.d/
 
-ADD symfony.pool.conf /etc/php5/fpm/pool.d/
+ADD cakephp.pool.conf /etc/php5/fpm/pool.d/
 
 CMD ["php-fpm", "-F"]
 

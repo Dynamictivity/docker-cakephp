@@ -18,7 +18,7 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
   - docker-compose -v
   - docker -v
-  - mkdir symfony
+  - mkdir cakephp
 
 script:
   - docker-compose up -d

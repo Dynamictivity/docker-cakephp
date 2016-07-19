@@ -32,7 +32,3 @@ services:
             - php
         volumes:
             - ./logs/nginx/:/var/log/nginx
-        environment:
-          DB_USERNAME: 'root'
-          DB_PASSWORD: 'cakephp'
-          DB_DATABASE: 'cakephp'

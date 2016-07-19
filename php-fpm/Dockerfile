@@ -96,5 +96,7 @@ ADD app.php /
 ADD init.sh /
 RUN chmod 765 /init.sh
 
+RUN echo "clear_env = no" >> /etc/php5/php-fpm.conf
+
 # Entry point
 ENTRYPOINT ["/init.sh"]

@@ -1,81 +1,65 @@
-# Use Alpine Linux
-FROM alpine:latest
+FROM ubuntu:14.04
 
-# Maintainer
-MAINTAINER Muhammad Zamroni <halo@matriphe.com>
+MAINTAINER Travis Rowland <travis.rowland@gmail.com>
 
-# Environments
+# Environment Variables
+ENV DEBIAN_FRONTEND noninteractive
 ENV TIMEZONE            Asia/Jakarta
 ENV PHP_MEMORY_LIMIT    512M
 ENV MAX_UPLOAD          50M
 ENV PHP_MAX_FILE_UPLOAD 200
 ENV PHP_MAX_POST        100M
 
-# Let's roll
-RUN	apk update && \
-	apk upgrade && \
-	apk add --update tzdata && \
-	cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && \
-	echo "${TIMEZONE}" > /etc/timezone && \
-	apk add --update \
-	    curl \
-	    wget \
-	    bash \
-	    tree \
-	    git \
-	    php5-phar \
-		php5-mcrypt \
-		php5-soap \
-		php5-openssl \
-		php5-gmp \
-		php5-pdo_odbc \
-		php5-json \
-		php5-dom \
-		php5-pdo \
-		php5-zip \
-		php5-mysql \
-		php5-sqlite3 \
-		php5-apcu \
-		php5-pdo_pgsql \
-		php5-bcmath \
-		php5-gd \
-		php5-xcache \
-		php5-odbc \
-		php5-pdo_mysql \
-		php5-pdo_sqlite \
-		php5-gettext \
-		php5-xmlreader \
-		php5-xmlrpc \
-		php5-bz2 \
-		php5-memcache \
-		php5-mssql \
-		php5-iconv \
-		php5-pdo_dblib \
-		php5-curl \
-		php5-ctype \
-        php5-imagick \
-        php5-intl \
-        php5-opcache \
-        php5-mysqli \
-        php5-xml \
-        php5-zlib \
-		php5-fpm && \
-    
-    # Set environments
-	sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php5/php-fpm.conf && \
-	sed -i "s|;*listen\s*=\s*127.0.0.1:9000|listen = 9000|g" /etc/php5/php-fpm.conf && \
-	sed -i "s|;*listen\s*=\s*/||g" /etc/php5/php-fpm.conf && \
-	sed -i "s|;*date.timezone =.*|date.timezone = ${TIMEZONE}|i" /etc/php5/php.ini && \
-	sed -i "s|;*memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}|i" /etc/php5/php.ini && \
-    sed -i "s|;*upload_max_filesize =.*|upload_max_filesize = ${MAX_UPLOAD}|i" /etc/php5/php.ini && \
-    sed -i "s|;*max_file_uploads =.*|max_file_uploads = ${PHP_MAX_FILE_UPLOAD}|i" /etc/php5/php.ini && \
-    sed -i "s|;*post_max_size =.*|post_max_size = ${PHP_MAX_POST}|i" /etc/php5/php.ini && \
-    sed -i "s|;*cgi.fix_pathinfo=.*|cgi.fix_pathinfo= 0|i" /etc/php5/php.ini && \
-    
-    # Cleaning up
-	mkdir /www && \
-	apk del tzdata && \
-	rm -rf /var/cache/apk/*
+# Update packages
+RUN apt-get clean && \
+    apt-get autoremove && \
+    apt-get update && \
+    apt-get dist-upgrade && \
+    apt-get -f install
+
+# Install required packages
+RUN apt-get update && \
+    apt-get -y install \
+    php5 \
+    php-pear \
+    php5-ldap \
+    php5-pgsql \
+    php5-mcrypt \
+    php5-gmp \
+    php5-json \
+    php5-mysql \
+    php5-gd \
+    php5-odbc \
+    php5-xmlrpc \
+    php5-memcache \
+    php5-mssql \
+    php5-curl \
+    php5-imagick \
+    php5-intl \
+    php5-fpm \
+    git \
+    curl \
+    wget
+
+# Set environment variables
+RUN sed -i '/daemonize /c daemonize = no' /etc/php5/fpm/php-fpm.conf && \
+#    echo "clear_env = no" >> /etc/php5/fpm/pool.d/www.conf && \
+	sed -i '/^listen /c listen = 0.0.0.0:9000' /etc/php5/fpm/pool.d/www.conf && \
+	sed -i 's/^listen.allowed_clients/;listen.allowed_clients/' /etc/php5/fpm/pool.d/www.conf && \
+	sed -i "s|;*listen\s*=\s*/||g" /etc/php5/fpm/pool.d/www.conf && \
+	sed -i "s|;*date.timezone =.*|date.timezone = ${TIMEZONE}|i" /etc/php5/fpm/php.ini && \
+	sed -i "s|;*memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}|i" /etc/php5/fpm/php.ini && \
+    sed -i "s|;*upload_max_filesize =.*|upload_max_filesize = ${MAX_UPLOAD}|i" /etc/php5/fpm/php.ini && \
+    sed -i "s|;*max_file_uploads =.*|max_file_uploads = ${PHP_MAX_FILE_UPLOAD}|i" /etc/php5/fpm/php.ini && \
+    sed -i "s|;*post_max_size =.*|post_max_size = ${PHP_MAX_POST}|i" /etc/php5/fpm/php.ini && \
+    sed -i "s|;*cgi.fix_pathinfo=.*|cgi.fix_pathinfo= 0|i" /etc/php5/fpm/php.ini && \
+
+    # Install composer
+    curl -sS https://getcomposer.org/installer | php && \
+        mv composer.phar /usr/local/bin/composer && \
+        echo "PATH=$PATH:/usr/local/bin" >> ~/.bash_profile && \
+        echo "export PATH" >> ~/.bash_profile && \
+        . ~/.bash_profile
 
 # Set Workdir
 WORKDIR /www
@@ -83,20 +67,12 @@ WORKDIR /www
 # Expose volumes
 VOLUME ["/www"]
 
-RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
-RUN echo "PATH=$PATH:/usr/local/bin" >> ~/.bash_profile
-RUN echo "export PATH" >> ~/.bash_profile
-RUN . ~/.bash_profile
-#RUN composer install --working-dir=/www
-
 # Expose ports
 EXPOSE 9000
 
 ADD app.php /
 ADD init.sh /
 RUN chmod 765 /init.sh
-
-RUN echo "clear_env = no" >> /etc/php5/php-fpm.conf
 
 # Entry point
 ENTRYPOINT ["/init.sh"]

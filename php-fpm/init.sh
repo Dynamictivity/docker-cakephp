@@ -30,7 +30,9 @@ fi
 cd /www; bin/cake migrations migrate
 
 # Seed the db
-cd /www; bin/cake migrations seed --seed DatabaseSeed || true
+if [ -n "$DB_SEED" ] ; then
+    cd /www; bin/cake migrations seed --seed $DB_SEED || true
+fi
 
 # Set environment variables
 echo "env[DB_USERNAME] = $DB_USERNAME" >> /etc/php5/fpm/pool.d/www.conf

@@ -21,6 +21,7 @@ services:
           DB_PASSWORD: 'cakephp'
           DB_DATABASE: 'cakephp'
           DB_SEED: 'DatabaseSeed'
+          REPO: 'https://github.com/Dynamictivity/cakephp-bookmarker.git'
     nginx:
         build: ./nginx
         ports:

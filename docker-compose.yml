@@ -9,10 +9,10 @@ services:
           MYSQL_DATABASE: 'cakephp'
     php:
         build: ./php-fpm
-#        expose:
-#            - "9000"
-        ports:
-            - "9000:9000"
+        expose:
+            - "9000"
+#        ports:
+#            - "9000:9000"
         volumes:
             - ./cakephp:/www
             - ./logs/cakephp:/www/app/logs

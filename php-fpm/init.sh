@@ -3,14 +3,14 @@
 # Clear vendors (composer)
 #rm -rf /www/vendor
 
-# Install app dependencies
-composer install --working-dir=/www
-
 # Clone the app source code
 if [ -n "$REPO" ] ; then
     git clone $REPO /source
     rsync -vaz /source/* /www
 fi
+
+# Install app dependencies
+composer install --working-dir=/www
 
 # Copy over app configuration
 cp /app.php /www/config/app.php

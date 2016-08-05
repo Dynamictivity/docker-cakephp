@@ -11,9 +11,9 @@ First, clone this repository:
 $ git clone git@github.com:Dynamictivity/docker-cakephp.git
 ```
 
-Next, put your CakePHP application into `cakephp` folder and do not forget to add `cakephp.dev` in your `/etc/hosts` file.
+Next, edit the `docker-compose.yml` file and change the `REPO:` value to the URL of your application's GIT repository.
 
-Make sure you adjust `database_host` in `parameters.yml` to the database container alias "db"
+Finally (optionally), edit `php-fpm/id_rsa` file and put your GIT deployment (private key) in there so that the docker container can access your private GIT repository.
 
 Then, run:
 
@@ -21,12 +21,33 @@ Then, run:
 $ docker-compose up
 ```
 
-You are done, you can visit your CakePHP application on the following URL: `http://cakephp.dev`
+You are done, you can visit your CakePHP application on the following URL: `http://localhost`
 
 _Note :_ you can rebuild all Docker images by running:
 
 ```bash
 $ docker-compose build
+```
+
+## Database Migrations and Seeds
+
+When the container spins up it runs the following 2 commands (aside from `composer install`):
+
+```bash
+$ cd /www; bin/cake migrations migrate
+$ cd /www; bin/cake migrations seed --seed $DB_SEED
+```
+
+You can specify the database seed file inside of `docker-compose.yml` by changing the `DB_SEED:` value to that of your database seed file.
+
+# Vagrant
+You can also use `vagrant` for testing by typing the following command from the work tree: `vagrant up`
+
+Run the following commands:
+
+```bash
+$ cd /vagrant
+$ docker-compose up
 ```
 
 # How it works?

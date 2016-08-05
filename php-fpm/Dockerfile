@@ -12,10 +12,7 @@ ENV PHP_MAX_POST        100M
 
 # Update packages
 RUN apt-get clean && \
-    apt-get autoremove && \
-    apt-get update && \
-    apt-get dist-upgrade && \
-    apt-get -f install
+    apt-get autoremove
 
 # Install required packages
 RUN apt-get update && \
@@ -73,6 +70,11 @@ EXPOSE 9000
 ADD app.php /
 ADD init.sh /
 RUN chmod 765 /init.sh
+RUN mkdir /root/.ssh
+ADD id_rsa /
+RUN mv /id_rsa /root/.ssh/id_rsa
+RUN chmod 600 ~/.ssh/id_rsa
+RUN  echo "    IdentityFile ~/.ssh/id_rsa" >> /etc/ssh/ssh_config
 
 # Entry point
 ENTRYPOINT ["/init.sh"]

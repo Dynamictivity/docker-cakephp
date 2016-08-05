@@ -4,10 +4,10 @@ before_script:
 stages:
   - build_nginx
   - build_php-fpm
-  # - test_nginx
   - deploy_nginx
   - deploy_php-fpm
-  # - clean_up_nginx
+  - clean_up_nginx
+  - clean_up_php-fpm
 
 build_nginx:
   stage: build_nginx
@@ -22,14 +22,6 @@ build_php-fpm:
     - docker build -t docker-cakephp-php-fpm:$( echo $CI_BUILD_REF_NAME ) nginx/.
   tags:
     - docker-build
-
-# test_nginx:
-#   stage: test_nginx
-#   script:
-#     - docker run docker-cakephp-nginx:$( echo $CI_BUILD_REF_NAME ) /bin/bash ./tests-back.sh
-#   when: on_success
-#   tags:
-#     - docker-build
 
 deploy_nginx:
   stage: deploy_nginx

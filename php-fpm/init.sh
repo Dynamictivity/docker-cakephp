@@ -5,6 +5,7 @@
 
 # Clone the app source code
 if [ -n "$REPO" ] ; then
+    ssh-keyscan -H $REPO_HOST >> ~/.ssh/known_hosts
     git clone $REPO /source
     rsync -vaz /source/* /www
 fi

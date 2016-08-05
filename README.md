@@ -13,7 +13,7 @@ $ git clone git@github.com:Dynamictivity/docker-cakephp.git
 
 Next, edit the `docker-compose.yml` file and change the `REPO:` value to the URL of your application's GIT repository.
 
-Finally (optionally), edit `php-fpm/id_rsa` file and put your GIT deployment (private key) in there so that the docker container can access your private GIT repository.
+Finally (required only for SSH GIT repositories), edit `php-fpm/id_rsa` file and put your GIT deployment (private key) in there so that the docker container can access your private GIT repository. If you are using GIT via SSH you'll also want to change the `REPO_HOST:` value to the FQDN of your GIT server host, that way the host key can be automatically accepted.
 
 Then, run:
 

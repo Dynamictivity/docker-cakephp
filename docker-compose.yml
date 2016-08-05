@@ -22,6 +22,7 @@ services:
           DB_DATABASE: 'cakephp'
           DB_SEED: 'DatabaseSeed'
           REPO: 'https://github.com/Dynamictivity/cakephp-bookmarker.git'
+          REPO_HOST: 'github.com'
     nginx:
         build: ./nginx
         ports:

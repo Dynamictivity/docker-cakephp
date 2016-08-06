@@ -2,8 +2,7 @@ before_script:
   - docker info
 
 stages:
-  - build_nginx
-  - build_php-fpm
+  - build
   - deploy_nginx
   - deploy_php-fpm
   - clean_up_nginx
@@ -12,23 +11,16 @@ stages:
 build_nginx:
   stage: build_nginx
   script:
-    - docker build -t docker-cakephp-nginx:$( echo $CI_BUILD_REF_NAME ) nginx/.
-  tags:
-    - docker-build
-
-build_php-fpm:
-  stage: build_php-fpm
-  script:
-    - docker build -t docker-cakephp-php-fpm:$( echo $CI_BUILD_REF_NAME ) nginx/.
+    - docker-compose build
   tags:
     - docker-build
 
 deploy_nginx:
   stage: deploy_nginx
   script:
-    - docker tag docker-cakephp-nginx:$( echo $CI_BUILD_REF_NAME ) $( echo $DOCKER_CLOUD_REPO_NGINX ):$( echo $CI_BUILD_REF_NAME )
+    - docker tag dockercakephp_nginx:$( echo $CI_BUILD_REF_NAME ) $( echo $DOCKER_CLOUD_REPO_NGINX )
     - docker login --username=$DOCKER_CLOUD_USERNAME --email=$DOCKER_CLOUD_EMAIL --password=$DOCKER_CLOUD_PASSWORD
-    - docker push $DOCKER_CLOUD_REPO_NGINX:$( echo $CI_BUILD_REF_NAME )
+    - docker push $DOCKER_CLOUD_REPO_NGINX
   only:
     - master
     - dev
@@ -39,9 +31,9 @@ deploy_nginx:
 deploy_php-fpm:
   stage: deploy_php-fpm
   script:
-    - docker tag docker-cakephp-nginx:$( echo $CI_BUILD_REF_NAME ) $( echo $DOCKER_CLOUD_REPO_PHP_FPM ):$( echo $CI_BUILD_REF_NAME )
+    - docker tag dockercakephp_php:$( echo $CI_BUILD_REF_NAME ) $( echo $DOCKER_CLOUD_REPO_PHP_FPM )
     - docker login --username=$DOCKER_CLOUD_USERNAME --email=$DOCKER_CLOUD_EMAIL --password=$DOCKER_CLOUD_PASSWORD
-    - docker push $DOCKER_CLOUD_REPO_PHP_FPM:$( echo $CI_BUILD_REF_NAME )
+    - docker push $DOCKER_CLOUD_REPO_PHP_FPM
   only:
     - master
     - dev
@@ -52,15 +44,15 @@ deploy_php-fpm:
 clean_up_nginx:
   stage: clean_up_nginx
   script:
-    - docker rm $(docker ps -a | grep docker-cakephp-nginx | awk '{print $1}') || true
-    - docker rmi -f $(docker images | grep docker-cakephp-nginx | awk '{print $3}') || true
+    - docker rm $(docker ps -a | grep dockercakephp_nginx | awk '{print $1}') || true
+    - docker rmi -f $(docker images | grep dockercakephp_nginx | awk '{print $3}') || true
   tags:
     - docker-build
 
 clean_up_php-fpm:
   stage: clean_up_php-fpm
   script:
-    - docker rm $(docker ps -a | grep docker-cakephp-php-fpm | awk '{print $1}') || true
-    - docker rmi -f $(docker images | grep docker-cakephp-php-fpm | awk '{print $3}') || true
+    - docker rm $(docker ps -a | grep dockercakephp_php | awk '{print $1}') || true
+    - docker rmi -f $(docker images | dockercakephp_php | awk '{print $3}') || true
   tags:
     - docker-build

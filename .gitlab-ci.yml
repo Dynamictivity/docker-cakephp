@@ -8,8 +8,8 @@ stages:
   - clean_up_nginx
   - clean_up_php-fpm
 
-build_nginx:
-  stage: build_nginx
+build:
+  stage: build
   script:
     - docker-compose build
   tags:

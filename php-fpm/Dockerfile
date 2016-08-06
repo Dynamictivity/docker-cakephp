@@ -4,7 +4,7 @@ MAINTAINER Travis Rowland <travis.rowland@gmail.com>
 
 # Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
-ENV TIMEZONE            Asia/Jakarta
+ENV TIMEZONE            UTC
 ENV PHP_MEMORY_LIMIT    512M
 ENV MAX_UPLOAD          50M
 ENV PHP_MAX_FILE_UPLOAD 200

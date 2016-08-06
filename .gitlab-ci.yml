@@ -18,7 +18,7 @@ build:
 deploy_nginx:
   stage: deploy_nginx
   script:
-    - docker tag dockercakephp_nginx:$( echo $CI_BUILD_REF_NAME ) $( echo $DOCKER_CLOUD_REPO_NGINX )
+    - docker tag dockercakephp_nginx $( echo $DOCKER_CLOUD_REPO_NGINX )
     - docker login --username=$DOCKER_CLOUD_USERNAME --email=$DOCKER_CLOUD_EMAIL --password=$DOCKER_CLOUD_PASSWORD
     - docker push $DOCKER_CLOUD_REPO_NGINX
   only:
@@ -31,9 +31,9 @@ deploy_nginx:
 deploy_php-fpm:
   stage: deploy_php-fpm
   script:
-    - docker tag dockercakephp_php:$( echo $CI_BUILD_REF_NAME ) $( echo $DOCKER_CLOUD_REPO_PHP_FPM )
+    - docker tag dockercakephp_php $( echo $DOCKER_CLOUD_REPO_PHP )
     - docker login --username=$DOCKER_CLOUD_USERNAME --email=$DOCKER_CLOUD_EMAIL --password=$DOCKER_CLOUD_PASSWORD
-    - docker push $DOCKER_CLOUD_REPO_PHP_FPM
+    - docker push $DOCKER_CLOUD_REPO_PHP
   only:
     - master
     - dev

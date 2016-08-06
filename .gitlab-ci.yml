@@ -4,9 +4,9 @@ before_script:
 stages:
   - build
   - deploy_nginx
-  - deploy_php-fpm
-  - clean_up_nginx
-  - clean_up_php-fpm
+  - deploy_php
+  - clean-up_nginx
+  - clean-up_php
 
 build:
   stage: build
@@ -28,8 +28,8 @@ deploy_nginx:
   tags:
     - docker-build
 
-deploy_php-fpm:
-  stage: deploy_php-fpm
+deploy_php:
+  stage: deploy_php
   script:
     - docker tag dockercakephp_php $( echo $DOCKER_CLOUD_REPO_PHP )
     - docker login --username=$DOCKER_CLOUD_USERNAME --email=$DOCKER_CLOUD_EMAIL --password=$DOCKER_CLOUD_PASSWORD
@@ -41,16 +41,16 @@ deploy_php-fpm:
   tags:
     - docker-build
 
-clean_up_nginx:
-  stage: clean_up_nginx
+clean-up_nginx:
+  stage: clean-up_nginx
   script:
     - docker rm $(docker ps -a | grep dockercakephp_nginx | awk '{print $1}') || true
     - docker rmi -f $(docker images | grep dockercakephp_nginx | awk '{print $3}') || true
   tags:
     - docker-build
 
-clean_up_php-fpm:
-  stage: clean_up_php-fpm
+clean-up_php:
+  stage: clean-up_php
   script:
     - docker rm $(docker ps -a | grep dockercakephp_php | awk '{print $1}') || true
     - docker rmi -f $(docker images | dockercakephp_php | awk '{print $3}') || true

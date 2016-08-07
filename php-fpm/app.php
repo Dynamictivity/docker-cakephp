@@ -177,15 +177,15 @@ return [
      */
     'EmailTransport' => [
         'default' => [
-            'className' => 'Mail',
+            'className' => 'Smtp',
             // The following keys are used in SMTP transports
-            'host' => 'localhost',
-            'port' => 25,
-            'timeout' => 30,
-            'username' => 'user',
-            'password' => 'secret',
+            'host' => env('EMAIL_HOST', 'localhost'),
+            'port' => env('EMAIL_PORT', 25),
+            'timeout' => env('EMAIL_TIMEOUT', 30),
+            'username' => env('EMAIL_USERNAME', 'user'),
+            'password' => env('EMAIL_PASSWORD', 'secret'),
             'client' => null,
-            'tls' => null,
+            'tls' => env('EMAIL_TLS', null),
             'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
         ],
     ],
@@ -202,7 +202,7 @@ return [
     'Email' => [
         'default' => [
             'transport' => 'default',
-            'from' => 'you@localhost',
+            'from' => env('EMAIL_USERNAME', 'user'),
             //'charset' => 'utf-8',
             //'headerCharset' => 'utf-8',
         ],
@@ -253,7 +253,7 @@ return [
              * which is the recommended value in production environments
              */
             //'init' => ['SET GLOBAL innodb_stats_on_metadata = 0'],
-            
+
             'url' => env('DATABASE_URL', null),
         ],
 
@@ -266,9 +266,9 @@ return [
             'persistent' => false,
             'host' => 'localhost',
             //'port' => 'non_standard_port_number',
-            'username' => 'my_app',
-            'password' => 'secret',
-            'database' => 'test_myapp',
+            'username' => env('DB_USERNAME', 'my_app'),
+            'password' => env('DB_PASSWORD', 'secret'),
+            'database' => env('DB_DATABASE', 'my_app'),
             'encoding' => 'utf8',
             'timezone' => 'UTC',
             'cacheMetadata' => true,

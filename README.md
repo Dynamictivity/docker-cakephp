@@ -29,6 +29,8 @@ _Note :_ you can rebuild all Docker images by running:
 $ docker-compose build
 ```
 
+# Custom Application Configuration
+
 ## Database Migrations and Seeds
 
 When the container spins up it runs the following 2 commands (aside from `composer install`):
@@ -39,6 +41,19 @@ $ cd /www; bin/cake migrations seed --seed $DB_SEED
 ```
 
 You can specify the database seed file inside of `docker-compose.yml` by changing the `DB_SEED:` value to that of your database seed file.
+
+## E-Mail Configuration
+Change the following variables in `docker-compose.yml` to configure email in your application:
+
+```
+EMAIL_HOST: 'localhost'
+EMAIL_PORT: '25'
+EMAIL_TIMEOUT: '30'
+EMAIL_USERNAME: 'user'
+EMAIL_PASSWORD: 'secret'
+EMAIL_TLS:
+EMAIL_TRANSPORT_DEFAULT_URL:
+```
 
 # Vagrant
 You can also use `vagrant` for testing by typing the following command from the work tree: `vagrant up`
@@ -54,9 +69,9 @@ $ docker-compose up
 
 Here are the `docker-compose` built images:
 
-* `db`: This is the MySQL database container (can be changed to postgresql or whatever in `docker-compose.yml` file),
-* `php`: This is the PHP-FPM container including the application volume mounted on,
-* `nginx`: This is the Nginx webserver container in which php volumes are mounted too.
+* `db`: This is the MySQL database container (can be changed to postgresql or whatever in `docker-compose.yml` file)
+* `nginx`: This is the Nginx webserver container in which php volumes are mounted to
+* `php`: This is the PHP-FPM container including the application volume mounted on
 
 This results in the following running containers:
 

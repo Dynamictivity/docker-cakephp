@@ -18,6 +18,7 @@ services:
             - db
         environment:
           DEBUG: 'true'
+          DB_HOST: 'db' # Leave this as 'db' to utilize MySQL container(s)
           DB_USERNAME: 'root'
           DB_PASSWORD: 'cakephp'
           DB_DATABASE: 'cakephp'

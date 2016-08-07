@@ -68,6 +68,7 @@ VOLUME ["/www"]
 EXPOSE 9000
 
 ADD app.php /
+ADD mysql-sessions.php /
 ADD init.sh /
 RUN chmod 765 /init.sh
 RUN mkdir /root/.ssh

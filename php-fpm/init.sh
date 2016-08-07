@@ -7,6 +7,7 @@
 if [ -n "$REPO" ] ; then
     ssh-keyscan -H $REPO_HOST >> ~/.ssh/known_hosts
     git clone $REPO /source
+    cd /source && git pull origin master
     rsync -vaz /source/* /www
 fi
 
@@ -15,6 +16,9 @@ composer install --working-dir=/www
 
 # Copy over app configuration
 cp /app.php /www/config/app.php
+
+# Copy over mysql-sessions.php
+cp /mysql-sessions.php /www/mysql-sessions.php
 
 # Wait for MySQL to come up (http://stackoverflow.com/questions/6118948/bash-loop-ping-successful)
 ((count = 100000))                            # Maximum number to try.
@@ -35,6 +39,9 @@ fi
 
 # Run db migrations
 cd /www; bin/cake migrations migrate
+
+# Populate Sessions Database
+php /www/mysql-sessions.php
 
 # Seed the db
 if [ -n "$DB_SEED" ] ; then

@@ -40,12 +40,12 @@ RUN apt-get update && \
 
 # Set environment variables
 RUN sed -i '/daemonize /c daemonize = no' /etc/php5/fpm/php-fpm.conf && \
-#    echo "clear_env = no" >> /etc/php5/fpm/pool.d/www.conf && \
-	sed -i '/^listen /c listen = 0.0.0.0:9000' /etc/php5/fpm/pool.d/www.conf && \
-	sed -i 's/^listen.allowed_clients/;listen.allowed_clients/' /etc/php5/fpm/pool.d/www.conf && \
-	sed -i "s|;*listen\s*=\s*/||g" /etc/php5/fpm/pool.d/www.conf && \
-	sed -i "s|;*date.timezone =.*|date.timezone = ${TIMEZONE}|i" /etc/php5/fpm/php.ini && \
-	sed -i "s|;*memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}|i" /etc/php5/fpm/php.ini && \
+    sed -i "s|;*clear_env\s*=\s*yes|clear_env = no|g" /etc/php5/php-fpm.conf && \
+	  sed -i '/^listen /c listen = 0.0.0.0:9000' /etc/php5/fpm/pool.d/www.conf && \
+	  sed -i 's/^listen.allowed_clients/;listen.allowed_clients/' /etc/php5/fpm/pool.d/www.conf && \
+	  sed -i "s|;*listen\s*=\s*/||g" /etc/php5/fpm/pool.d/www.conf && \
+	  sed -i "s|;*date.timezone =.*|date.timezone = ${TIMEZONE}|i" /etc/php5/fpm/php.ini && \
+	  sed -i "s|;*memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}|i" /etc/php5/fpm/php.ini && \
     sed -i "s|;*upload_max_filesize =.*|upload_max_filesize = ${MAX_UPLOAD}|i" /etc/php5/fpm/php.ini && \
     sed -i "s|;*max_file_uploads =.*|max_file_uploads = ${PHP_MAX_FILE_UPLOAD}|i" /etc/php5/fpm/php.ini && \
     sed -i "s|;*post_max_size =.*|post_max_size = ${PHP_MAX_POST}|i" /etc/php5/fpm/php.ini && \

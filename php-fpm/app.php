@@ -186,7 +186,7 @@ return [
             'password' => env('EMAIL_PASSWORD', 'secret'),
             'client' => null,
             'tls' => filter_var(env('EMAIL_TLS', null), FILTER_VALIDATE_BOOLEAN),
-            'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
+            'url' => null,
         ],
     ],
 

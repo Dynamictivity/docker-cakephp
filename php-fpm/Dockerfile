@@ -20,6 +20,7 @@ RUN apt-get update && \
     netcat \
     unzip \
     php \
+    php-sqlite3 \
     php-pear \
     php-ldap \
     php-pgsql \

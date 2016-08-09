@@ -14,6 +14,7 @@ Just a little Docker POC in order to have a complete stack for running CakePHP i
 netcat
 unzip
 php
+php-sqlite3
 php-pear
 php-ldap
 php-pgsql

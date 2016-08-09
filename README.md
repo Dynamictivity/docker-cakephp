@@ -4,6 +4,8 @@ docker-cakephp
 Just a little Docker POC in order to have a complete stack for running CakePHP into Docker containers using docker-compose tool.
 
 ## Features
+- Ubuntu 16.04
+- PHP 7.0
 - Ability to clone repository into docker container upon startup
 - Ability to separate CakePHP application into stand-alone container/image to ease infrastructure/code updates (Example: https://github.com/Dynamictivity/docker-cakephp-example)
 

@@ -9,6 +9,32 @@ Just a little Docker POC in order to have a complete stack for running CakePHP i
 - Ability to clone repository into docker container upon startup
 - Ability to separate CakePHP application into stand-alone container/image to ease infrastructure/code updates (Example: https://github.com/Dynamictivity/docker-cakephp-example)
 
+## Installed Packages
+```
+netcat
+unzip
+php
+php-pear
+php-ldap
+php-pgsql
+php-mcrypt
+php-mbstring
+php-gmp
+php-json
+php-mysql
+php-gd
+php-odbc
+php-xmlrpc
+php-memcache
+php-curl
+php-imagick
+php-intl
+php-fpm
+git
+curl
+wget
+```
+
 ## Todo
 - Suggestions?
 

@@ -18,6 +18,7 @@ RUN apt-get clean && \
 RUN apt-get update && \
     apt-get -y install \
     netcat \
+    unzip \
     php \
     php-pear \
     php-ldap \

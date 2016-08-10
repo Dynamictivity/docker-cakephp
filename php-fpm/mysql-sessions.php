@@ -13,7 +13,7 @@ if ($mysqli->connect_errno) {
 /* Create sessions table */
 $result = $mysqli->query("CREATE TABLE IF NOT EXISTS sessions (
   id varchar(40) NOT NULL default '',
-  data text,
+  data BLOB,
   expires INT(11) NOT NULL,
   PRIMARY KEY  (id)
 );");
@@ -21,4 +21,4 @@ $result = $mysqli->query("CREATE TABLE IF NOT EXISTS sessions (
 /* Close connection */
 $mysqli->close();
 
-print "### MySQL Sessions Populated ###";
+print "### MySQL Sessions Table Created ###";

@@ -16,7 +16,8 @@ $result = $mysqli->query("CREATE TABLE IF NOT EXISTS sessions (
   data BLOB,
   expires INT(11) NOT NULL,
   PRIMARY KEY  (id)
-);");
+);
+ALTER TABLE sessions MODIFY COLUMN data BLOB;");
 
 /* Close connection */
 $mysqli->close();

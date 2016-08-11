@@ -12,12 +12,11 @@ if ($mysqli->connect_errno) {
 
 /* Create sessions table */
 $result = $mysqli->query("CREATE TABLE IF NOT EXISTS sessions (
-  id varchar(40) NOT NULL default '',
-  data BLOB,
-  expires INT(11) NOT NULL,
-  PRIMARY KEY  (id)
-);
-ALTER TABLE sessions MODIFY COLUMN data BLOB;");
+    id varchar(40) NOT NULL default '',
+    data text,
+    expires INT(11) NOT NULL,
+    PRIMARY KEY  (id)
+  );");
 
 /* Close connection */
 $mysqli->close();

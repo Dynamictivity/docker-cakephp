@@ -37,6 +37,7 @@ wget
 ```
 
 ## Todo
+- Get database sessions working (currently it always creates the `data` field of the `sessions` table as `binary(255)` no-matter what)
 - Suggestions?
 
 # Installation

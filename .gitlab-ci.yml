@@ -5,8 +5,7 @@ stages:
   - build
   - deploy_nginx
   - deploy_php
-  - clean-up_nginx
-  - clean-up_php
+  - clean_up
 
 build:
   stage: build
@@ -41,18 +40,10 @@ deploy_php:
   tags:
     - docker-build
 
-clean-up_nginx:
-  stage: clean-up_nginx
+clean_up:
+  stage: clean_up
   script:
-    - docker rm $(docker ps -a | grep dockercakephp_nginx | awk '{print $1}') || true
-    - docker rmi -f $(docker images | grep dockercakephp_nginx | awk '{print $3}') || true
-  tags:
-    - docker-build
-
-clean-up_php:
-  stage: clean-up_php
-  script:
-    - docker rm $(docker ps -a | grep dockercakephp_php | awk '{print $1}') || true
-    - docker rmi -f $(docker images | dockercakephp_php | awk '{print $3}') || true
+    - docker rm $(docker ps -a -q) || true
+    - docker rmi $(docker images | awk '/^<none>/ { print $3 }') || true
   tags:
     - docker-build

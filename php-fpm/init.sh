@@ -18,7 +18,7 @@ composer install --working-dir=/www
 cp /app.php /www/config/app.php
 
 # Copy over mysql-sessions.php
-cp /mysql-sessions.php /www/mysql-sessions.php
+# cp /mysql-sessions.php /www/mysql-sessions.php
 
 # Wait for MySQL to come up (http://stackoverflow.com/questions/6118948/bash-loop-ping-successful)
 ((count = 100000))                            # Maximum number to try.
@@ -41,7 +41,7 @@ fi
 cd /www; bin/cake migrations migrate
 
 # Populate Sessions Database
-php /www/mysql-sessions.php
+# php /www/mysql-sessions.php
 
 # Seed the db
 if [ -n "$DB_SEED" ] ; then

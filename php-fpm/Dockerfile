@@ -37,6 +37,7 @@ RUN apt-get update && \
     php-imagick \
     php-intl \
     php-fpm \
+    php-bcmath \
     git \
     curl \
     wget

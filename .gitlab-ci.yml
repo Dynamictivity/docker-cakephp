@@ -47,10 +47,3 @@ deploy_php:
   when: on_success
   tags:
     - docker-build
-
-clean_up:
-  stage: clean_up
-  script:
-    - docker rm $(docker ps -a -q) || true
-  tags:
-    - docker-build

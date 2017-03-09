@@ -2,44 +2,23 @@
 #  - docker info
 
 stages:
-  - build_nginx
-  - build_php
-  - deploy_nginx
-  - deploy_php
-  - clean_up
+  - build
+  - deploy
 
-build_nginx:
-  stage: build_nginx
+build:
+  stage: build
   script:
-    - docker build -t dockercakephp_nginx nginx
+    - docker-compose build
   tags:
     - docker-build
 
-build_php:
-  stage: build_php
+deploy:
+  stage: deploy
   script:
-    - docker build -t dockercakephp_php php-fpm
-  tags:
-    - docker-build
-
-deploy_nginx:
-  stage: deploy_nginx
-  script:
+    - docker login --username=$DOCKER_CLOUD_USERNAME --email=$DOCKER_CLOUD_EMAIL --password=$DOCKER_CLOUD_PASSWORD
     - docker tag dockercakephp_nginx $( echo $DOCKER_CLOUD_REPO_NGINX )
-    - docker login --username=$DOCKER_CLOUD_USERNAME --email=$DOCKER_CLOUD_EMAIL --password=$DOCKER_CLOUD_PASSWORD
-    - docker push $DOCKER_CLOUD_REPO_NGINX
-  only:
-    - master
-    - dev
-  when: on_success
-  tags:
-    - docker-build
-
-deploy_php:
-  stage: deploy_php
-  script:
     - docker tag dockercakephp_php $( echo $DOCKER_CLOUD_REPO_PHP )
-    - docker login --username=$DOCKER_CLOUD_USERNAME --email=$DOCKER_CLOUD_EMAIL --password=$DOCKER_CLOUD_PASSWORD
+    - docker push $DOCKER_CLOUD_REPO_NGINX
     - docker push $DOCKER_CLOUD_REPO_PHP
   only:
     - master

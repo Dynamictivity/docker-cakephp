@@ -2,15 +2,23 @@
 #  - docker info
 
 stages:
-  - build
+  - build_nginx
+  - build_php
   - deploy_nginx
   - deploy_php
   - clean_up
 
-build:
-  stage: build
+build_nginx:
+  stage: build_nginx
   script:
-    - docker-compose build
+    - docker build -t dockercakephp_nginx nginx
+  tags:
+    - docker-build
+
+build_php:
+  stage: build_php
+  script:
+    - docker build -t dockercakephp_php php-fpm
   tags:
     - docker-build
 

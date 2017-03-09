@@ -1,5 +1,5 @@
-before_script:
-  - docker info
+#before_script:
+#  - docker info
 
 stages:
   - build

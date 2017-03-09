@@ -8,7 +8,8 @@ stages:
 build:
   stage: build
   script:
-    - docker-compose build
+    - docker build -t dockercakephp_php nginx
+    - docker build -t dockercakephp_php php-fpm
   tags:
     - docker-build
 

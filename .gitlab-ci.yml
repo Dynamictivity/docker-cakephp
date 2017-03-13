@@ -6,8 +6,8 @@ stages:
 build:
   stage: build
   script:
-    - docker build -t dockercakephp_php nginx
-    - docker build -t dockercakephp_php php-fpm
+    - docker build -t dockercakephp_nginx:${CI_BUILD_REF_NAME} nginx
+    - docker build -t dockercakephp_php:${CI_BUILD_REF_NAME} php-fpm
   tags:
     - docker-build
 
@@ -15,13 +15,27 @@ deploy:
   stage: deploy
   script:
     - docker login --username=$DOCKER_CLOUD_USERNAME --email=$DOCKER_CLOUD_EMAIL --password=$DOCKER_CLOUD_PASSWORD
-    - docker tag dockercakephp_nginx $( echo $DOCKER_CLOUD_REPO_NGINX )
-    - docker tag dockercakephp_php $( echo $DOCKER_CLOUD_REPO_PHP )
+    - docker tag dockercakephp_nginx:${CI_BUILD_REF_NAME} ${DOCKER_CLOUD_REPO_NGINX}:${CI_BUILD_REF_NAME}
+    - docker tag dockercakephp_php:${CI_BUILD_REF_NAME} ${DOCKER_CLOUD_REPO_PHP}:${CI_BUILD_REF_NAME}
     - docker push $DOCKER_CLOUD_REPO_NGINX
     - docker push $DOCKER_CLOUD_REPO_PHP
   only:
     - master
     - dev
+  when: on_success
+  tags:
+    - docker-build
+
+tag_latest:
+  stage: deploy
+  script:
+    - docker login --username=$DOCKER_CLOUD_USERNAME --email=$DOCKER_CLOUD_EMAIL --password=$DOCKER_CLOUD_PASSWORD
+    - docker tag dockercakephp_nginx:${CI_BUILD_REF_NAME} ${DOCKER_CLOUD_REPO_NGINX}:latest
+    - docker tag dockercakephp_php:${CI_BUILD_REF_NAME} ${DOCKER_CLOUD_REPO_PHP}:latest
+    - docker push $DOCKER_CLOUD_REPO_NGINX:latest
+    - docker push $DOCKER_CLOUD_REPO_PHP:latest
+  only:
+    - master
   when: on_success
   tags:
     - docker-build

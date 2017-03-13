@@ -3,6 +3,9 @@ docker-cakephp
 
 Just a little Docker POC in order to have a complete stack for running CakePHP into Docker containers using docker-compose tool. It is recommended to utilize this stack with database sessions, so your sessions can be persisted across all running instances of your application.
 
+## Contributing
+Please see [Contributing](CONTRIBUTING.md) for instructions on contributing to this repository.
+
 ## Features
 - Ubuntu 16.04
 - PHP 7.0

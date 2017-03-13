@@ -35,6 +35,6 @@ sync:
     - git remote add sync ${GIT_SYNC_REMOTE_URL}
     - git checkout ${CI_BUILD_REF_NAME}
     - git pull origin ${CI_BUILD_REF_NAME}
-    - git push gitlab ${CI_BUILD_REF_NAME}
+    - git push sync ${CI_BUILD_REF_NAME}
   tags:
     - docker-build

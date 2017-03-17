@@ -40,7 +40,8 @@ RUN apt-get update && \
     php-bcmath \
     git \
     curl \
-    wget
+    wget \
+    libxrender1
 
 # Create php-fpm pid
 RUN service php7.0-fpm start

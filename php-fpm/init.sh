@@ -23,7 +23,7 @@ cp /app.php /www/config/app.php
 # Wait for MySQL to come up (http://stackoverflow.com/questions/6118948/bash-loop-ping-successful)
 ((count = 100000))                            # Maximum number to try.
 while [[ $count -ne 0 ]] ; do
-    nc -v db 3306                      # Try once.
+    nc -v $DB_HOST 3306                      # Try once.
     rc=$?
     if [[ $rc -eq 0 ]] ; then
         ((count = 1))                      # If okay, flag to exit loop.

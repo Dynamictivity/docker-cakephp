@@ -21,7 +21,6 @@ deploy:
     - docker push $DOCKER_CLOUD_REPO_PHP
   only:
     - master
-    - dev
     - tags
   when: on_success
   tags:

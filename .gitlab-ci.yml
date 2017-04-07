@@ -14,7 +14,7 @@ build:
 deploy:
   stage: deploy
   script:
-    - docker login --username=$DOCKER_CLOUD_USERNAME --email=$DOCKER_CLOUD_EMAIL --password=$DOCKER_CLOUD_PASSWORD
+    - docker login --username=$DOCKER_CLOUD_USERNAME --password=$DOCKER_CLOUD_PASSWORD
     - docker tag dockercakephp_nginx:${CI_BUILD_REF_NAME} ${DOCKER_CLOUD_REPO_NGINX}:${CI_BUILD_REF_NAME}
     - docker tag dockercakephp_php:${CI_BUILD_REF_NAME} ${DOCKER_CLOUD_REPO_PHP}:${CI_BUILD_REF_NAME}
     - docker push $DOCKER_CLOUD_REPO_NGINX
@@ -30,7 +30,7 @@ deploy:
 tag_latest:
   stage: deploy
   script:
-    - docker login --username=$DOCKER_CLOUD_USERNAME --email=$DOCKER_CLOUD_EMAIL --password=$DOCKER_CLOUD_PASSWORD
+    - docker login --username=$DOCKER_CLOUD_USERNAME --password=$DOCKER_CLOUD_PASSWORD
     - docker tag dockercakephp_nginx:${CI_BUILD_REF_NAME} ${DOCKER_CLOUD_REPO_NGINX}:latest
     - docker tag dockercakephp_php:${CI_BUILD_REF_NAME} ${DOCKER_CLOUD_REPO_PHP}:latest
     - docker push $DOCKER_CLOUD_REPO_NGINX:latest

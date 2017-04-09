@@ -12,7 +12,7 @@ Please contribute to this repository if any of the following is true:
 
 The source code repository located on GitHub is simply an external sync from our
 GitLab server. If you would like to contribute, please create an account on our
-[GitLab server](http://gitlab.dynamictivity.com/cakephp/docker-cakephp) -- from
+[GitLab server](http://gitlab.dynamictivity.com/dynamictivity/docker-cakephp) -- from
 there you can fork the repository, report issues, create merge requests, etc.
 
 ## Types of contributions
